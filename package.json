@@ -11,9 +11,11 @@
     "lint": "eslint ./lib --ext .ts",
     "lint:fix": "eslint ./lib --ext .ts --fix",
     "test": "npm run lint && npm run unit",
+    "unit": "jest",
     "watch": "tsc -w"
   },
   "devDependencies": {
+    "@types/jest": "^28.1.6",
     "@types/node": "10.17.27",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",

@@ -12,4 +12,4 @@ npm -v
 npm install -g verdaccio
 sudo mkdir /var/log/verdaccio
 sudo chown ec2-user /var/log/verdaccio/
-verdaccio
+verdaccio --listen 0.0.0.0:80

@@ -1,15 +1,14 @@
-# EC2 Instance Creation with CDK
+# Deploys a Verdaccio private npm registry to an EC2 instance via CDK
 
-This example will create:
+Uses CDK to provision the following:
 
 - A new VPC
 - Two public subnets
 - A security group
 - An EC2 instance in one of the subnets
 
-The `/src/config.sh` file is used as [user-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) for the EC2 instance. Update this with any commands you'd like to be executed when the EC2 instance first boots.
-
-[_learn more about user-data_](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)
+The `/src/config.sh` file is used as [user-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) for the EC2 instance. 
+This file will handle configuring and running a Verdaccio private npm registry.
 
 ## To Deploy
 

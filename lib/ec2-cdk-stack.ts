@@ -2,7 +2,7 @@ import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as path from 'path';
-// import { KeyPair } from 'cdk-ec2-key-pair';
+//import { KeyPair } from 'cdk-ec2-key-pair';
 import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
 
@@ -11,12 +11,13 @@ export class Ec2CdkStack extends cdk.Stack {
     super(scope, id, props);
 
     // Create a Key Pair to be used with this EC2 Instance
-    // Temporarily disabled since `cdk-ec2-key-pair` is not yet CDK v2 compatible
-    // const key = new KeyPair(this, 'KeyPair', {
-    //   name: 'cdk-keypair',
-    //   description: 'Key Pair created with CDK Deployment',
-    // });
-    // key.grantReadOnPublicKey
+    /**
+     const key = new KeyPair(this, 'KeyPair', {
+       name: 'cdk-keypair',
+       description: 'Key Pair created with CDK Deployment',
+    });
+    key.grantReadOnPublicKey
+   **/
 
     // Create new VPC with 2 Subnets
     const vpc = new ec2.Vpc(this, 'VPC', {
@@ -42,16 +43,15 @@ export class Ec2CdkStack extends cdk.Stack {
 
     role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'))
 
-    // Use Latest Amazon Linux Image - CPU Type ARM64
-    const ami = new ec2.AmazonLinuxImage({
-      generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
-      cpuType: ec2.AmazonLinuxCpuType.ARM_64
+    const ami = new ec2.GenericLinuxImage({
+        // Amazon Linux 2 Kernel 5.10 AMI 2.0.20220719.0 x86_64 HVM gp2
+        'us-east-1': 'ami-090fa75af13c156b4',
     });
 
     // Create the instance using the Security Group, AMI, and KeyPair defined in the VPC created
     const ec2Instance = new ec2.Instance(this, 'Instance', {
       vpc,
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
       machineImage: ami,
       securityGroup: securityGroup,
       // keyName: key.keyPairName,

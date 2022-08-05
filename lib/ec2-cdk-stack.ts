@@ -2,7 +2,7 @@ import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as path from 'path';
-//import { KeyPair } from 'cdk-ec2-key-pair';
+import { KeyPair } from 'cdk-ec2-key-pair';
 import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
 
@@ -11,13 +11,11 @@ export class Ec2CdkStack extends cdk.Stack {
     super(scope, id, props);
 
     // Create a Key Pair to be used with this EC2 Instance
-    /**
-     const key = new KeyPair(this, 'KeyPair', {
+    const key = new KeyPair(this, 'KeyPair', {
        name: 'cdk-keypair',
        description: 'Key Pair created with CDK Deployment',
     });
     key.grantReadOnPublicKey
-   **/
 
     // Create new VPC with 2 Subnets
     const vpc = new ec2.Vpc(this, 'VPC', {
@@ -54,7 +52,7 @@ export class Ec2CdkStack extends cdk.Stack {
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
       machineImage: ami,
       securityGroup: securityGroup,
-      // keyName: key.keyPairName,
+      keyName: key.keyPairName,
       role: role
     });
 
@@ -73,7 +71,7 @@ export class Ec2CdkStack extends cdk.Stack {
 
     // Create outputs for connecting
     new cdk.CfnOutput(this, 'IP Address', { value: ec2Instance.instancePublicIp });
-    // new cdk.CfnOutput(this, 'Key Name', { value: key.keyPairName })
+    new cdk.CfnOutput(this, 'Key Name', { value: key.keyPairName })
     new cdk.CfnOutput(this, 'Download Key Command', { value: 'aws secretsmanager get-secret-value --secret-id ec2-ssh-key/cdk-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem' })
     new cdk.CfnOutput(this, 'ssh command', { value: 'ssh -i cdk-key.pem -o IdentitiesOnly=yes ec2-user@' + ec2Instance.instancePublicIp })
   }

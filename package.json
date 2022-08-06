@@ -10,19 +10,14 @@
     "cdk": "cdk",
     "lint": "eslint ./lib --ext .ts",
     "lint:fix": "eslint ./lib --ext .ts --fix",
-    "test": "npm run lint && npm run unit",
-    "unit": "jest",
     "watch": "tsc -w"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.6",
     "@types/node": "10.17.27",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
     "aws-cdk": "*",
     "eslint": "^8.21.0",
-    "jest": "^28.1.3",
-    "ts-jest": "^28.0.7",
     "typescript": "~4.6.0"
   },
   "dependencies": {

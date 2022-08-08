@@ -1,7 +1,6 @@
 #!/bin/bash -xe
 
-# Update with optional user data that will run on instance start.
-# Learn more about user-data: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
+# Install node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -9,7 +8,17 @@ export NVM_DIR="$HOME/.nvm"
 nvm install --lts
 node -e "console.log('Running Node.js ' + process.version)"
 npm -v
+
+# Install npm deps
+npm install -g forever
 npm install -g verdaccio
+
+# Create log directory
 sudo mkdir /var/log/verdaccio
-sudo chown ec2-user /var/log/verdaccio/
-verdaccio --listen 0.0.0.0:80
+
+# Run verdaccio server in background via forever
+forever start `which verdaccio` --listen 0.0.0.0:80
+
+# Survive reboot via crontab
+line="@reboot /usr/bin/forever start `which verdaccio` --listen 0.0.0.0:80"
+(crontab -u $(whoami) -l; echo "$line" ) | crontab -u $(whoami) -

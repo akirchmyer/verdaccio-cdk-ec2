@@ -1,7 +1,6 @@
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam'
-import * as path from 'path';
 import { KeyPair } from 'cdk-ec2-key-pair';
 import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
@@ -55,11 +54,11 @@ export class Ec2CdkStack extends cdk.Stack {
   }
 
   // Create the instance using the Security Group, AMI, and KeyPair defined in the VPC created
-  getEc2Instance (ec2Props: ec2.InstanceProps) {
+  getEc2Instance (ec2Props: ec2.InstanceProps, userDataPath: string) {
     const ec2Instance = new ec2.Instance(this, 'Instance', ec2Props);
 
     // Create an asset that will be used as part of User Data to run on first load
-    const asset = new Asset(this, 'Asset', { path: path.join(__dirname, '../src/config.sh') });
+    const asset = new Asset(this, 'Asset', { path: userDataPath });
     const localPath = ec2Instance.userData.addS3DownloadCommand({
       bucket: asset.bucket,
       bucketKey: asset.s3ObjectKey,
@@ -74,7 +73,7 @@ export class Ec2CdkStack extends cdk.Stack {
     return ec2Instance;
   }
 
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: cdk.StackProps, userDataPath: string) {
     super(scope, id, props);
 
     const key = this.getKey();
@@ -90,7 +89,7 @@ export class Ec2CdkStack extends cdk.Stack {
       securityGroup: securityGroup,
       keyName: key.keyPairName,
       role: role
-    });
+    }, userDataPath);
 
     // Create outputs for connecting
     new cdk.CfnOutput(this, 'IP Address', { value: ec2Instance.instancePublicIp });

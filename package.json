@@ -20,8 +20,8 @@
   "scripts": {
     "build": "tsc",
     "cdk": "cdk",
-    "lint": "eslint ./lib --ext .ts",
-    "lint:fix": "eslint ./lib --ext .ts --fix",
+    "lint": "eslint ./bin --ext .ts",
+    "lint:fix": "eslint ./bin --ext .ts --fix",
     "watch": "tsc -w"
   },
   "devDependencies": {

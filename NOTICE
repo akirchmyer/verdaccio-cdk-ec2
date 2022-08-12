@@ -1,0 +1,6 @@
+AWS CDK Examples
+Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. 
+
+MODIFICATIONS:
+- Refactored CDK EC2 Example to package for an npm registry
+- Used example code as foundation for quickly building and deploying a Verdaccio server to AWS

@@ -1,10 +1,22 @@
 {
-  "name": "ec2-cdk",
-  "version": "0.1.0",
+  "name": "verdaccio-cdk-ec2",
+  "version": "1.0.0",
   "description": "Provisions EC2 instance and runs private Verdaccio registry via CDK.",
+  "author": "Andrew Kirchmyer",
+  "license": "Apache 2.0",
+  "keywords": [
+    "AWS",
+    "CDK",
+    "ec2",
+    "Verdaccio"
+  ],
   "bin": {
     "ec2-cdk": "bin/ec2-cdk.js"
   },
+  "bugs": {
+    "url": "https://github.com/akirchmyer/verdaccio-cdk-ec2/issues"
+  },
+  "homepage": "https://github.com/akirchmyer/verdaccio-cdk-ec2",
   "scripts": {
     "build": "tsc",
     "cdk": "cdk",
@@ -21,9 +33,10 @@
     "typescript": "~4.6.0"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.0.0",
+    "aws-cdk-lib": "2.37.1",
     "cdk-ec2-key-pair": "^3.3.1",
     "constructs": "^10.0.0",
+    "simple-cdk-ec2": "^1.0.0",
     "source-map-support": "^0.5.16"
   }
 }

@@ -20,8 +20,9 @@
   "scripts": {
     "build": "tsc",
     "cdk": "cdk",
+    "format": "prettier --write \"./bin/**/*.+(js|ts|json)\"",
     "lint": "eslint ./bin --ext .ts",
-    "lint:fix": "eslint ./bin --ext .ts --fix",
+    "lint:fix": "eslint ./bin --ext .ts --fix && npm run format",
     "watch": "tsc -w"
   },
   "devDependencies": {
@@ -30,6 +31,8 @@
     "@typescript-eslint/parser": "^5.32.0",
     "aws-cdk": "*",
     "eslint": "^8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
     "typescript": "~4.6.0"
   },
   "dependencies": {
